@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Define CSS Variables for Theme Management (Dark Mode is Default) */
+:root {
+    --bg-color: #0d1117;
+    --text-color-primary: #FBBF24; /* Primary Text: Amber 400 (e.g., Sidebar Title, forecast date/non-current temp) */
+    --text-color-secondary: #9CA3AF;
+    --text-color-accent: #FFFFFF; /* New: High-Contrast Text (Main Temp, Condition, Card Data) */
+    --glass-bg: rgba(13, 17, 23, 0.4);
+    --sidebar-bg: #1a1e24;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.37);
+}
+
+/* Light Mode Variables */
+.light-mode {
+    --bg-color: #F3F4F6;
+    --text-color-primary: #000000; /* Primary Text: Pure Black */
+    --text-color-secondary: #4B5563; /* Dark Gray for secondary text */
+    --text-color-accent: #000000; /* New: High-Contrast Text (Pure Black) */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --sidebar-bg: #FFFFFF;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    /* Using a simple gradient background for dynamic theming robustness */
+    background-image: linear-gradient(to bottom right, #1a202c, #0d1117);
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    color: var(--text-color-primary);
+    overflow-x: hidden;
+    transition: background-color 0.5s, color 0.5s;
+    display: flex;
+    flex-direction: column; /* Default on small screens */
+}
+
+@media (min-width: 1024px) {
+  body {
+    flex-direction: row;
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;     /* text-2xl */
+  line-height: 2rem;
+  font-weight: 800;       /* font-extrabold */
+  margin-bottom: 2.5rem;  /* mb-10 */
+  color: #FBBF24;         /* text-gray-400 */
+}
+
+.weather_location-text {
+    width: 400px;
+}
+.bg-video
+{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.search-box {
+    padding-left: 600px;
+    display: flex;               /* flex */
+    align-items: center;         /* items-center */
+    gap: 1rem;                   /* space-x-4 (Tailwind's 1rem = 16px * 4/16 = 1rem) */
+}
+
+.main-temperature {
+    font-family: 'Inter',sans-serif;
+    font-size: 8rem;       /* text-9xl */
+    line-height: 1;        /* Tailwind default */
+    font-weight: 800;      /* font-extrabold */
+    color: #ffffff;        /* text-white */
+}
+
+.degree-symbol {
+    font-family: 'Inter',sans-serif;
+    font-size: 8rem;      
+    line-height: 1;        
+    font-weight: 800;      
+    color: #FBBF24; 
+}
+
+
+.forecast {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    list-style: none;
+    
+}
+
+.forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Glass effect (assuming glass-panel class is for backdrop blur and transparency) */
+    backdrop-filter: blur(10px); /* optional, for blur effect */
+    background-color: rgba(255, 255, 255, 0.1); /* semi-transparent background */
+    border-radius: 1rem; /* optional, for rounded corners */
+    
+    /* Padding */
+    padding: 1.5rem; /* Tailwind p-6 = 1.5rem */
+
+    /* Margin bottom */
+    margin-bottom: 4rem; /* Tailwind mb-16 = 4rem */
+}
+
+.forecast-time {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 4;
+}
+
+.forecastWindText {
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.forecast-temperature {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 100%;
+}
+
+/* Make the globe canvas interactive */
+#globe-container canvas {
+    pointer-events: auto;
+}
+
+#chart {
+    margin: 30px auto 30px;
+    width: 100%;
+}
+
+/* Light mode specific: use a very subtle light gradient */
+.light-mode {
+    background-image: linear-gradient(to bottom right, #FFFFFF, #F3F4F6) !important;
+}
+
+/* --- FIX: Dynamic Text Color Mapping --- */
+.text-white, .main-accent-text { 
+    color: var(--text-color-accent) !important; 
+}
+
+/* Elements that should be the secondary color */
+.text-gray-400 { 
+    color: var(--text-color-secondary) !important; 
+}
+
+/* FIX: Ensure search input text is readable */
+.light-mode #search-location {
+    color: var(--text-color-primary) !important; 
+}
+.glass-panel {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border-color);
+    border-radius: 2rem;
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+
+/* Styles for the left sidebar */
+#sidebar {
+    width: 320px;
+    min-height: 100vh;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    transition: background-color 0.5s, border-color 0.5s;
+}
+
+/* Custom gradient for the status bar */
+.status-gradient {
+    background: linear-gradient(90deg, #2D3748 0%, #4A5568 100%);
+    border-radius: 0.5rem;
+    height: 8px;
+}
+.light-mode .status-gradient {
+    background: linear-gradient(90deg, #E5E7EB 0%, #D1D5DB 100%);
+}
+
+/* Utility for the location pin icon and theme icon */
+.icon-svg {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+/*.location-pin-svg {
+    @apply w-5 h-5;
+}*/
+
+/* Responsive adjustments for mobile */
+@media (max-width: 1024px) {
+    #sidebar {
+        width: 100%;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    #main-content {
+        padding: 1rem;
+    }
+    .main-glass-panel {
+        padding: 1.5rem !important;
+    }
+}
+
+/* Custom scrollbar styling for the hourly forecast */
+.scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.light-mode .scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
